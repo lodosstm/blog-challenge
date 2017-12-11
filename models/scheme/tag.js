@@ -15,7 +15,7 @@ module.exports = (sequelize, DataType) => {
   });
 
   Tag.associate = (models) => {
-    models.Tag.hasMany(models.article_tag);
+    Tag.hasMany(models.article_tag);
   };
 
   return Tag;

@@ -9,8 +9,8 @@ module.exports = (sequelize, DataType) => {
   });
 
   ArticleTag.associate = (models) => {
-    models.ArticleTag.belongsTo(models.tag, { foreignKey: { name: 'tag_id' } });
-    models.ArticleTag.belongsTo(models.article, { foreignKey: { name: 'post_id' } });
+    ArticleTag.belongsTo(models.tag, { foreignKey: 'tag_id' });
+    ArticleTag.belongsTo(models.article, { foreignKey: 'post_id' });
   };
 
   return ArticleTag;

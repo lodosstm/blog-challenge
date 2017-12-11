@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataType) => {
-  const Comment = sequelize.define('comment', {
+  const Commentary = sequelize.define('commentary', {
     id: {
       type: DataType.INTEGER,
       primaryKey: true,
@@ -25,10 +25,10 @@ module.exports = (sequelize, DataType) => {
     },
   });
 
-  Comment.associate = (models) => {
-    models.Comment.belongsTo(models.user, { foreignKey: { name: 'author_id' } });
-    models.Comment.belongsTo(models.article, { foreignKey: { name: 'post_id' } });
+  Commentary.associate = (models) => {
+    Commentary.belongsTo(models.user, { foreignKey: 'author_id' });
+    Commentary.belongsTo(models.article, { foreignKey: 'post_id' });
   };
 
-  return Comment;
+  return Commentary;
 };
