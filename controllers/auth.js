@@ -15,8 +15,8 @@ const registration = async (req, res, next) => {
 
   const link = `http://${config.general.host}:${config.general.port}/api/auth/confirm/${hashCode}`;
   console.log(link);
-  res.data = { success: true };
 
+  res.data = { success: true };
   next();
 };
 
@@ -31,6 +31,7 @@ const confirmUser = async (req, res, next) => {
   const affectedCount = await users.confirmUser(id);
 
   if (affectedCount[0] > 0) {
+    await redisClient.del(hashCode);
     res.data = { success: true };
     return next();
   }
@@ -98,6 +99,7 @@ const reset = async (req, res, next) => {
 
   const affectedCount = await users.changePassword(email, newPassword);
   if (affectedCount[0] > 0) {
+    await redisClient.del(code);
     res.data = { success: true };
     return next();
   }
