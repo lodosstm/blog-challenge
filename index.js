@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const config = require('./config/config');
+// const passport = require('./common/auth_strategy');
 require('./db')();
 
 const authRoutes = require('./routes/auth');
@@ -11,6 +12,8 @@ app.use(bodyParser.urlencoded({
   extended: true,
 }));
 app.use(bodyParser.json());
+
+// passport.initialize();
 
 app.use('/api', authRoutes);
 

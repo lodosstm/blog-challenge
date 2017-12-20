@@ -21,7 +21,7 @@ module.exports = (sequelize, DataType) => {
     },
     status: {
       type: DataType.ENUM,
-      values: ['public', 'notpublic'],
+      values: ['public', 'draft'],
     },
     author_id: {
       type: DataType.INTEGER,
