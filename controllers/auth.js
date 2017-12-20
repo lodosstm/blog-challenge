@@ -66,6 +66,10 @@ const login = async (req, res, next) => {
       return Promise.reject({ success: false, message: 'user is not found' });
     }
 
+    if (user.status === false) {
+      return Promise.reject({ success: false, message: 'email is not confirmed' });
+    }
+
     if (bcrypt.compareSync(password, user.password)) {
       const payload = {
         id: user.id,
