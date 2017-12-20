@@ -4,9 +4,25 @@ const config = require('../config/config');
 const randomstring = require('randomstring');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const smtpTransport = require('../common/mailer');
+
+const sendEmail = async (email, link) => {
+  const mailOptions = {
+    to: email,
+    subject: 'Please confirm your Email account',
+    html: `Hello,<br> Please Click on the link to verify your email.<br><a href="${link}">Click here to verify</a>`,
+  };
+
+  await smtpTransport.sendMail(mailOptions, (error) => {
+    if (error) {
+      console.log(error);
+      return Promise.reject({ success: false, message: 'mail is not send' });
+    }
+  });
+};
 
 const registration = async (req, res, next) => {
-  const { id } = await users.addNewUser(req.body);
+  const { id, email } = await users.addNewUser(req.body);
 
   const hashCode = randomstring.generate();
 
@@ -15,6 +31,8 @@ const registration = async (req, res, next) => {
 
   const link = `http://${config.general.host}:${config.general.port}/api/auth/confirm/${hashCode}`;
   console.log(link);
+
+  await sendEmail(email, link);
 
   res.data = { success: true };
   next();
